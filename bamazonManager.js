@@ -35,7 +35,6 @@ function start() {
             switch (answers.selectOption) {
                 case "View Products for Sale":
                     viewProducts();
-                    console.log("start")
                     break;
 
                 case "View Low Inventory":
@@ -47,11 +46,11 @@ function start() {
                     break;
 
                 case "Add New Product":
-                newProduct();
+                    newProduct();
                     break;
 
                 case "Exit":
-                endConnection();
+                    endConnection();
                     break;
 
                 default:
@@ -85,6 +84,14 @@ function start() {
         })
     }
     function addInventory() {
+        connection.query('SELECT * FROM products ORDER BY product_name ASC', function (err, results) {
+            if (err) throw (err);
+
+            console.log('\nItems for Sale:');
+            for (var i = 0; results.length > i; i++) {
+                console.log("\nID # " + results[i].item_id + "\nPRODUCT NAME: " + results[i].product_name + "\nPRICE " + "$" + results[i].price + "\n" + "----------------");
+            }
+            
         inquirer
             .prompt([
                 {
@@ -121,17 +128,18 @@ function start() {
 
                     var result = results[0];
                     // console.log(result);
-                    console.log("Thank you. Your inventory has been updated.")
+                    console.log("\nThank you. Your inventory has been updated." + "\n")
                     connection.end();
                 })
                 updateInventory(id, amount);
             })
+        })
     }
 
     function updateInventory(idAnswered, amountAnswered) {
         connection.query("UPDATE products SET stock_quantity = stock_quantity + ? WHERE item_id = ? ", [amountAnswered, idAnswered], function(err, results) {
             if (err) throw(err);
-            console.log(results)
+            // console.log(results)
         })
     }
 
