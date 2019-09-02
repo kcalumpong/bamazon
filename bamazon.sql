@@ -6,7 +6,7 @@ CREATE TABLE products (
 item_id INT NOT NULL AUTO_INCREMENT,
 product_name VARCHAR(100) NOT NULL,
 department_name VARCHAR(20) NOT NULL,
-price INT(10) NOT NULL,
+price DECIMAL(13,2) NOT NULL,
 stock_quantity INT(10) NOT NULL,
 PRIMARY KEY(item_id)
 );
@@ -22,7 +22,8 @@ VALUES
 ("Hasbro Gaming Rubik's Cube", "Toys and Games", 4.49, 312),
 ('"Becoming" by Michelle Obama', "Books", 17.89, 564),
 ("DELL 23inch Full HD Monitor", "Electronics", 129.99, 770),
-("Jewelry Travel Organizer Case", "Jewelry", 16.49, 82);
+("Jewelry Travel Organizer Case", "Jewelry", 16.49, 82),
+("Art of the Root Soy Candle", "Home Decor", 12.99, 4);
 
 
 

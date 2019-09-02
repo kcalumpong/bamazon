@@ -20,14 +20,13 @@ function startConnection(cb) {
 }
 startConnection(displayProducts);
 
-//Looping through my product items and price. This query will display both when ran. 
 function displayProducts() {
     connection.query('SELECT * FROM products ORDER BY product_name ASC', function (err, results) {
         if (err) throw (err);
 
         console.log('\nItems for Sale:');
         for (var i = 0; results.length > i; i++) {
-            console.log("ID # " + results[i].item_id + "\nPRODUCT NAME: " + results[i].product_name + "\nPRICE " + "$" + results[i].price + "\n" + "----------------");
+            console.log("\nID # " + results[i].item_id + "\nPRODUCT NAME: " + results[i].product_name + "\nPRICE " + "$" + results[i].price + "\n" + "----------------");
         }
         selectItem();
     });
@@ -69,14 +68,13 @@ function selectItem() {
                 // console.log(result)
                 var itemPrice = result.price;
                 if (quantity > result.stock_quantity) {
-                    console.log("Insufficient Quantity!")
+                    console.log("Not enough in stock!")
                     endConnection();
                     return;
                 }
                 updateQuantity(id, quantity, itemPrice)
             });
-        })
-        
+        }) 
 }
 function updateQuantity(idNumber, amount, price) {
     connection.query('UPDATE products SET stock_quantity = stock_quantity - ? WHERE item_id = ?', [amount, idNumber], function (err, results) {
@@ -86,7 +84,6 @@ function updateQuantity(idNumber, amount, price) {
         endConnection();
     }) 
     
-
 }
 function endConnection() {
     connection.end();
