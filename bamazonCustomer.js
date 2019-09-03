@@ -13,7 +13,6 @@ var connection = mysql.createConnection({
 function startConnection(cb) {
     connection.connect(function (err) {
         if (err) throw (err);
-        console.log("connected as id " + connection.threadId + "\n");
         if (cb) {
             cb();
         }
@@ -21,35 +20,23 @@ function startConnection(cb) {
 }
 startConnection(displayProducts);
 
-// function displayProducts() {
-//     connection.query('SELECT * FROM products ORDER BY product_name ASC', function (err, results) {
-//         if (err) throw (err);
-
-//         console.log('\nItems for Sale:');
-//         for (var i = 0; results.length > i; i++) {
-//             console.log("\nID # " + results[i].item_id + "\nPRODUCT NAME: " + results[i].product_name + "\nPRICE " + "$" + results[i].price + "\n" + "----------------");
-//         }
-//         selectItem();
-//     });
-// }
-
 function displayProducts() {
     connection.query('SELECT * FROM products ORDER BY product_name ASC', function (err, results) {
         if (err) throw (err);
 
-        console.log('\nItems for Sale:');
+        console.log('\nWELCOME TO BAMAZON!');
+        console.log('\nCheck out our items for Sale:');
 
         var table = new Table({ head: ['ID Number', 'Product Name', 'Price'] });
-        
+
         for (var i = 0; results.length > i; i++) {
-            // console.log("\nID # " + results[i].item_id + "\nPRODUCT NAME: " + results[i].product_name + "\nPRICE " + "$" + results[i].price + "\n" + "----------------");
-            
+
             var object = [results[i].item_id, results[i].product_name, results[i].price]
             table.push(object);
-            
+
         }
-        console.log(table.toString());
-        
+        console.log(table.toString() + "\n");
+
         selectItem();
     });
 };
@@ -58,9 +45,9 @@ function selectItem() {
     inquirer
         .prompt([
             {
+                message: "Select the item you would like to purchase by ID number:",
                 name: 'customerSelect',
                 type: 'input',
-                message: "Select the item you would like to purchase by ID number.",
                 validate: function (value) {
                     if (isNaN(value) === false) {
                         return true;
@@ -77,20 +64,20 @@ function selectItem() {
                     if (isNaN(value) === false) {
                         return true;
                     }
-                    console.log("\nPlease input a number")
+                    console.log("\nPlease input a number. Thank you!")
                     return false;
                 }
             }
+       
         ]).then(function (answers) {
             var id = answers.customerSelect;
             var quantity = answers.quantity;
             connection.query('SELECT * FROM products WHERE item_id = ' + id, function (err, results) {
                 if (err) throw (err);
                 var result = results[0]
-                // console.log(result)
                 var itemPrice = result.price;
                 if (quantity > result.stock_quantity) {
-                    console.log("Not enough in stock!")
+                    console.log("Sorry there is not enough in stock!")
                     endConnection();
                     return;
                 }
@@ -98,14 +85,15 @@ function selectItem() {
             });
         })
 }
+
 function updateQuantity(idNumber, amount, price) {
     connection.query('UPDATE products SET stock_quantity = stock_quantity - ? WHERE item_id = ?', [amount, idNumber], function (err, results) {
         if (err) throw (err);
-        // console.log(results);
-        console.log('\nYour total is $' + price * amount + "\n" + "Thank you for shopping with bamazon!" + "\n");
+        console.log('\nYour total is $' + price * amount + "." + "\n" + "Thank you for shopping with BAMAZON!" + "\n");
         endConnection();
     })
 }
+
 function endConnection() {
     connection.end();
 }
