@@ -6,7 +6,7 @@
 BAMAZON is an Amazon-like storefront. Customers now have the ability to browse through several items in different departments ranging from Home & Garden to Outdoor & Sports. 
 
 
-* First, the customer can selects which item they would like to purchase by entering the product's ID number. 
+* First, the customer can select which item they would like to purchase by entering the product's ID number. 
 
 * Next, the customer will be prompted to enter in the amount of items they would like to purchase. The customer will receive their total at the end of the transaction and the store's inventory will be updated in MySQL.
 
