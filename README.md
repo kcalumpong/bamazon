@@ -1,6 +1,5 @@
 # WELCOME TO BAMAZON!! 
-
-## How does it work?
+### How does it work?
 
 ## BAMAZON Customer
 
